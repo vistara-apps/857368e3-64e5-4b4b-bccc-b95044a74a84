@@ -1,0 +1,30 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "frame": {
+    "version": "1",
+    "name": "LiquidityLink",
+    "subtitle": "Built with Zara",
+    "description": "LiquidityLink is a Base Mini App built with Zara.",
+    "iconUrl": "https://0co.to/images/zara-2.png",
+    "homeUrl": "https://857368e364e54b4bbcccb95044a74a84-sqtz.vercel.app",
+    "splashImageUrl": "https://857368e364e54b4bbcccb95044a74a84-sqtz.vercel.app/splash.png",
+    "splashBackgroundColor": "#000000",
+    "heroImageUrl": "https://857368e364e54b4bbcccb95044a74a84-sqtz.vercel.app/image.png",
+    "tagline": "LiquidityLink",
+    "screenshotUrls": [
+      "https://857368e364e54b4bbcccb95044a74a84-sqtz.vercel.app/screenshot.png",
+      "https://857368e364e54b4bbcccb95044a74a84-sqtz.vercel.app/screenshot.png"
+    ],
+    "primaryCategory": "social",
+    "tags": [
+      "base",
+      "miniapp",
+      "onchainkit"
+    ],
+    "webhookUrl": "https://857368e364e54b4bbcccb95044a74a84-sqtz.vercel.app/api/webhook"
+  }
+}
