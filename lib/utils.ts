@@ -65,10 +65,10 @@ export function truncateAddress(address: string, chars = 4): string {
 export function generateMockData() {
   return {
     liquiditySources: [
-      { protocol: 'Uniswap V3', apy: 6.60, tvl: 51750000, volume24h: 1659130, fees24h: 8740, riskScore: 25 },
-      { protocol: 'Aerodrome', apy: 8.45, tvl: 23400000, volume24h: 892000, fees24h: 4560, riskScore: 35 },
-      { protocol: 'BaseSwap', apy: 12.3, tvl: 8900000, volume24h: 445000, fees24h: 2890, riskScore: 55 },
-      { protocol: 'SushiSwap', apy: 5.2, tvl: 15600000, volume24h: 678000, fees24h: 3240, riskScore: 30 },
+      { protocol: 'Uniswap V3', pair: 'WETH/USDC', apy: 6.60, tvl: 51750000, volume24h: 1659130, fees24h: 8740, riskScore: 25 },
+      { protocol: 'Aerodrome', pair: 'WETH/USDC', apy: 8.45, tvl: 23400000, volume24h: 892000, fees24h: 4560, riskScore: 35 },
+      { protocol: 'BaseSwap', pair: 'WETH/USDC', apy: 12.3, tvl: 8900000, volume24h: 445000, fees24h: 2890, riskScore: 55 },
+      { protocol: 'SushiSwap', pair: 'WETH/USDC', apy: 5.2, tvl: 15600000, volume24h: 678000, fees24h: 3240, riskScore: 30 },
     ],
     rateComparisons: [
       { exchange: 'Uniswap V3', rate: 1772.65, spread: 0.05, liquidity: 45000000, fees: 0.3 },
