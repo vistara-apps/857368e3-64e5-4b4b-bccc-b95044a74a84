@@ -11,31 +11,56 @@ import { LPPositionManager } from '@/components/LPPositionManager';
 import { RiskInsight } from '@/components/RiskInsight';
 import { PortfolioChart } from '@/components/PortfolioChart';
 import { generateMockData } from '@/lib/utils';
+import { usePoolData } from '@/hooks/usePoolData';
+import { useExchangeRates } from '@/hooks/useExchangeRates';
+import { useAuth } from '@/contexts/AuthContext';
+import { riskAssessmentEngine } from '@/lib/risk/assessment';
 
 export default function HomePage() {
   const { setFrameReady } = useMiniKit();
+  const { user, isConnected } = useAuth();
   const [data, setData] = useState(generateMockData());
-  const [isLoading, setIsLoading] = useState(true);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  // Fetch real data using our custom hooks
+  const { pools, isLoading: poolsLoading, error: poolsError } = usePoolData(10);
+  const { rates, isLoading: ratesLoading, error: ratesError } = useExchangeRates('WETH', 'USDC');
 
   useEffect(() => {
     // Initialize MiniKit frame
     setFrameReady();
     
-    // Simulate data loading
+    // Simulate initial loading
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsInitialLoading(false);
     }, 1000);
 
     return () => clearTimeout(timer);
   }, [setFrameReady]);
 
-  const mockRiskAssessment = {
-    overall: 35,
-    impermanentLoss: 25,
-    smartContract: 20,
-    liquidity: 45,
-    protocol: 30,
-  };
+  // Update data when real data is available
+  useEffect(() => {
+    if (pools.length > 0 && rates.length > 0) {
+      setData(prevData => ({
+        ...prevData,
+        liquiditySources: pools,
+        rateComparisons: rates,
+      }));
+    }
+  }, [pools, rates]);
+
+  // Calculate real risk assessment based on current pools
+  const riskAssessment = pools.length > 0 
+    ? riskAssessmentEngine.assessPortfolio(pools)
+    : {
+        overall: 35,
+        impermanentLoss: 25,
+        smartContract: 20,
+        liquidity: 45,
+        protocol: 30,
+      };
+
+  const isLoading = isInitialLoading || (poolsLoading && ratesLoading);
 
   if (isLoading) {
     return (
@@ -66,6 +91,24 @@ export default function HomePage() {
           <p className="text-xl text-text-secondary max-w-2xl mx-auto">
             Compare rates, manage positions, and assess risk effortlessly across DEXs and CEXs on Base.
           </p>
+          
+          {/* Connection Status */}
+          {!isConnected && (
+            <div className="glass-card p-4 rounded-lg max-w-md mx-auto">
+              <p className="text-text-secondary text-sm">
+                Connect your wallet to access personalized features and manage your positions.
+              </p>
+            </div>
+          )}
+          
+          {/* Data Status */}
+          {(poolsError || ratesError) && (
+            <div className="glass-card p-4 rounded-lg max-w-md mx-auto border-warning/20">
+              <p className="text-warning text-sm">
+                {poolsError || ratesError} - Showing cached data.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Key Metrics */}
@@ -124,7 +167,7 @@ export default function HomePage() {
 
           {/* Risk Assessment */}
           <div>
-            <RiskInsight assessment={mockRiskAssessment} />
+            <RiskInsight assessment={riskAssessment} />
           </div>
         </div>
 

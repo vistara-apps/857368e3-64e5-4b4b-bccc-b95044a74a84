@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { Menu, X, Wallet, TrendingUp, Shield, Settings2 } from 'lucide-react';
-import { ConnectWallet, Wallet as OnchainWallet } from '@coinbase/onchainkit/wallet';
-import { Name, Avatar } from '@coinbase/onchainkit/identity';
+import { WalletConnect } from './WalletConnect';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -54,12 +53,7 @@ export function AppShell({ children }: AppShellProps) {
 
             {/* Wallet Connection */}
             <div className="flex items-center space-x-4">
-              <OnchainWallet>
-                <ConnectWallet className="btn-primary">
-                  <Avatar className="w-6 h-6" />
-                  <Name className="ml-2" />
-                </ConnectWallet>
-              </OnchainWallet>
+              <WalletConnect />
 
               {/* Mobile menu button */}
               <div className="md:hidden">
